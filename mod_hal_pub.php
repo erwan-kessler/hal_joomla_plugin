@@ -34,8 +34,9 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'helper.php');
 $helper = new modSPTwitter($params, $moduleID);
 $data = $helper->articles();
 if (!is_null($data)) {
-    if (isset($data['response'])){
-        die('API Fail');
+    if (!isset($data['response'])){
+        echo "API Fail";
+        return;
     }
     $data = $data["response"];
 

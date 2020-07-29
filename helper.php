@@ -192,7 +192,6 @@ class modSPTwitter
     */
     public function prepareArticles($array)
     {
-        var_dump($array);
         // the data will be displayed as
         // publicationDate_s : (authFullName_s)+
         // title_s[uri_s] download[fileMain_s]
@@ -221,8 +220,16 @@ class modSPTwitter
         }
 
 
+        // first column
+        $string = '<div class="hal-first-column">';
+
+        // first line: date and authors
+        $string = $string . '<div class="hal-first-line">';
+        //date
+        $string = $string . '<div class="hal-date"><img class="hal-icon" src="images/icones/date_icone.png" alt="icone date">' . $publication_date . '</div>';
+        // authors
         $flag_et_al = false;
-        $string = '<div class="hal-date">' . $publication_date . '</div><div class="hal-authors">';
+        $string = $string . '<img class="hal-icon" src="images/icones/stylo_icone.png" alt="icone stylo"><div class="hal-authors">';
         foreach ($authors_array as $i => $name) {
             if ($i > 3) {
                 $flag_et_al = true;
@@ -230,13 +237,28 @@ class modSPTwitter
             }
             $string = $string . '<div class="hal-author">' . $name . '</div>';
         }
-        $string = $string . ($flag_et_al ? '<div class="hal-more-authors">et al.</div>' : '') . '</div>';
+        $string = $string . ($flag_et_al ? '<i class="hal-more-authors">et al.</i>' : '') . '</div>';
+        $string = $string . '</div>';
+
+        //second line: title with link
+        $string = $string . '<div class="hal-second-line">';
         $string = $string . '<div class="hal-title"><a class="hal-link" target="_blank" href="' . $uri . '">' . $title . '</a></div>';
-        if (!is_null($download)) {
-            $string = $string . '<div class="hal-download-button"><a href="' . $download . '" download></a></div>';
-        }
+        $string = $string . '</div>';
+
+        // optional third line
         if (!is_null($journal_title)) {
-            $string = $string . '<div class="hal-journal">' . $journal_title . '</div>';
+            $string = $string . '<div class="hal-third-line">';
+            $string = $string . '<i class="hal-journal">' . $journal_title . '</i>';
+            $string = $string . '</div>';
+        }
+
+        $string = $string . '</div>';
+
+        // optional second column
+        if (!is_null($download)) {
+            $string = $string . '<div class="hal-second-column">';
+            $string = $string . '<div class="hal-download-button download"><a href="' . $download . '" download><span>HAL</span><span>Document</span></a></div>';
+            $string = $string . '</div>';
         }
         return $string;
     }

@@ -3,7 +3,7 @@
 <div class="hal-publication">
     <?php foreach($data["docs"] as $i=>$value) { ?>
 		<?php  if ( $params->get('animation')=='none' ) { ?>
-        <div class="hal-item <?php echo ($i%2) ? 'hal-even' : 'hal-odd' ?><?php if ($i===0) echo 'hal-first' ?>">
+        <div class="hal-item<?php echo ($i%2) ? ' hal-even' : ' hal-odd' ?><?php if ($i===0) echo ' hal-first' ?>">
 		<?php } else { ?>
 			<div class="hal-item">
 		<?php } ?>
