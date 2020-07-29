@@ -1,0 +1,1 @@
+hal_lecob_plugin
