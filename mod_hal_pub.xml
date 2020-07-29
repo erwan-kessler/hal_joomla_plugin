@@ -44,7 +44,7 @@
           <option value="list">LIST</option>
           <option value="bubble">BUBBLE</option>
         </field>
-        <field name="target" type="radio" default="_blank" class="btn-group" label="NEW_WINDOW" description="NEW_WINDOW_DESC">
+        <field name="target" type="radio" default="_blank" class="btn-group" label="WINDOW" description="WINDOW_DESC">
           <option value="_self">NEW_WINDOW</option>
           <option value="_blank">OWN_WINDOW</option>
         </field>

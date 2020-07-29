@@ -82,45 +82,51 @@ class modSPTwitter
             'division' => $this->params->get('division')
         );
 
-        if (empty( $this->params->get('url'))) {
+        if (empty($this->params->get('url'))) {
             JError::raiseNotice(100, 'URL not defined, use https://api.archives-ouvertes.fr/search/.');
             return NULL;
         }
-        if (empty( $this->params->get('division'))) {
+        if (empty($this->params->get('division'))) {
             JError::raiseNotice(100, 'Division not defined, use LECOB or NULL for all.');
             return NULL;
         }
-        if (empty( $this->params->get('query'))) {
+        if (empty($this->params->get('query'))) {
             JError::raiseNotice(100, 'Query not defined, use *.');
             return NULL;
         }
-        if (empty( $this->params->get('date')) && is_int( $this->params->get('date'))) {
+        if (empty($this->params->get('date')) && is_int($this->params->get('date'))) {
             JError::raiseNotice(100, 'Date not correctly defined, please input only the year (like 2020).');
             return NULL;
         }
-        if (empty( $this->params->get('type'))) {
+        if (empty($this->params->get('type'))) {
             JError::raiseNotice(100, 'The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).');
             return NULL;
         }
-        if (empty( $this->params->get('number_per_page')) && is_int( $this->params->get('number_per_page'))) {
+        if (empty($this->params->get('number_per_page')) && is_int($this->params->get('number_per_page'))) {
             JError::raiseNotice(100, 'The number per page was not defined please use 10.');
             return NULL;
         }
 
-        $getfield = '?q=' .  $this->params->get('query') . // the main query this is for example to restrict to one person
+        $getfield = '?q=' . $this->params->get('query') . // the main query this is for example to restrict to one person
             '&wt=json' . // the return type, we handle json only here
-            'fq=docType_s:"' .  $this->params->get('type') .'"'. // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
-            '&fq=submittedDateY_i:[' .  $this->params->get('date') . '%20TO%20' . ((int) $this->params->get('date') + 1) . ']' . // the limit on date so we dont get old results
+            'fq=docType_s:"' . $this->params->get('type') . '"' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
+            '&fq=submittedDateY_i:[' . $this->params->get('date') . '%20TO%20' . ((int)$this->params->get('date') + 1) . ']' . // the limit on date so we dont get old results
             '&sort=publicationDate_tdate%20desc' . // sort the publication by date so newer ones pops up
-            '&rows=' . $this->params->get('number_per_page'). // restrict to only so much by page
-            '&fl=title_s,publicationDate_tdate,label_s,fileMain_s'; // the field we need to display data, knowing that label_s is actually the core part
+            '&rows=' . $this->params->get('number_per_page') . // restrict to only so much by page
+            '&fl=title_s,publicationDate_s,label_s,fileMain_s,authFullName_s,uri_s,journalTitle_s'; // the field we need to display data, knowing that label_s is actually the core part
+        // the data will be displayed as
+        // publicationDate_tdate : (authFullName_s)+
+        // title_s[uri_s] download[fileMain_s]
+        // journalTitle_s
+
         $requestMethod = 'GET'; // we only GET, no need to POST PUT or whatever
         $this->api = new HALApiExchange($settings);
         return $this->api->setGetfield($getfield)->buildRequest($requestMethod)->performRequest();
 
     }
 
-    public function decodeJSON($data){
+    public function decodeJSON($data)
+    {
         $data = json_decode($data, true);
         switch (json_last_error()) {
             case JSON_ERROR_NONE:
@@ -150,8 +156,9 @@ class modSPTwitter
     /*
     * function onError
     */
-    public function onError($params){
-        if (is_null($params["data"]) or empty($params["data"])){
+    public function onError($params)
+    {
+        if (is_null($params["data"]) or empty($params["data"])) {
             JFile::Delete($params['file']);
             return true;
         }
@@ -174,7 +181,7 @@ class modSPTwitter
         } else {
             $data = $this->getData();
         }
-        if (is_null($data) or empty($data)){
+        if (is_null($data) or empty($data)) {
             return null; // we make sure to not decode json, it will be handled later
         }
         return $data = $this->decodeJSON($data);
@@ -183,33 +190,39 @@ class modSPTwitter
     /*
     * Prepare feeds
     */
-    public function prepareArticles($string)
+    public function prepareArticles($array)
     {
-        /*//Url
-        $pattern = '/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/i';
-        $replacement = '<a target="' . $this->params->get('target') . '" class="tweet_url" href="$1">$1</a>';
-        $string = preg_replace($pattern, $replacement, $string);
 
-        //Search
-        if ($this->params->get('linked_search')==1) {
-            $pattern = '/[\#]+([A-Za-z0-9-_]+)/i';
-            $replacement = ' <a target="' . $this->params->get('target') . '" class="tweet_search" href="http://search.twitter.com/search?q=$1">#$1</a>';
-            $string = preg_replace($pattern, $replacement, $string);
+        // the data will be displayed as
+        // publicationDate_s : (authFullName_s)+
+        // title_s[uri_s] download[fileMain_s]
+        // journalTitle_s
+
+        $uri = $array["uri_s"];
+        $authors_array = $array["authFullName_s"];
+        $publication_date = $array["publicationDate_s"];
+        $title = $array["title_s"];
+        $download = $array["fileMain_s"];
+        $journal_title = $array["journalTitle_s"];
+        // weird case for ppl that didnt fill up correctly, easier to display that part
+        if (empty($authors_array) or empty($title)) {
+            return '<div class="label">' . $array["label_s"] . '</div>';
         }
-
-        //Mention
-        if ($this->params->get('linked_mention')==1) {
-            $pattern = '/\s[\@]+([A-Za-z0-9-_]+)/i';
-            $replacement = ' <a target="' . $this->params->get('target') . '" class="tweet_mention" href="http://twitter.com/$1">@$1</a>';
-            $string = preg_replace($pattern, $replacement, $string);
+        $flag_et_al=false;
+        $string = '<div class="hal-date">' . $publication_date . '</div><div class="hal-authors">';
+        foreach ($authors_array as $i => $name) {
+            if ($i>3){
+                $flag_et_al=true;
+                break;
+            }
+            $string = $string . '<div class="hal-author">' . $name.'</div>';
         }
-
-        //Mention
-        if ($this->params->get('email_linked')==1) {
-            $pattern = '/\s([A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})/i';
-            $replacement = ' <a target="' . $this->params->get('target') . '" class="tweet_email" href="mailto:$1">$1</a>';
-            $string = preg_replace($pattern, $replacement, $string);
-        }*/
+        $string = $string . ($flag_et_al?'<div class="hal-more-authors">et al.</div>':''). '</div>';
+        $string=$string.'<div class="hal-title"><a class="hal-link" target="_blank" href="'.$uri.'">'.$title.'</a></div>';
+        if (!is_null($download)){
+            $string=$string.'<div class="hal-download-button"><a href="'.$download.'" download></a></div>';
+        }
+        $string=$string.'<div class="hal-journal">'.$journal_title.'</div>';
         return $string;
     }
 

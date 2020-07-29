@@ -7,7 +7,7 @@
 		<?php } else { ?>
 			<div class="sp-tweet-item">		
 		<?php } ?>
-				<?php echo $helper->prepareArticles($value['label_s'])?>
+				<?php echo $helper->prepareArticles($value)?>
             <div class="sp-tweet-clr"></div>
         </div>
     <?php } ?>
