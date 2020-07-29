@@ -1,14 +1,14 @@
 <?php defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 
-<div class="sp-tweet">
+<div class="hal-publication">
     <?php foreach($data["docs"] as $i=>$value) { ?>
 		<?php  if ( $params->get('animation')=='none' ) { ?>
-        <div class="sp-tweet-item <?php echo ($i%2) ? 'sp-tweet-even' : 'sp-tweet-odd' ?><?php if ($i===0) echo ' sp-tweet-first' ?>">
+        <div class="hal-item <?php echo ($i%2) ? 'hal-even' : 'hal-odd' ?><?php if ($i===0) echo 'hal-first' ?>">
 		<?php } else { ?>
-			<div class="sp-tweet-item">		
+			<div class="hal-item">
 		<?php } ?>
 				<?php echo $helper->prepareArticles($value)?>
-            <div class="sp-tweet-clr"></div>
+            <div class="hal-clr"></div>
         </div>
     <?php } ?>
 </div>

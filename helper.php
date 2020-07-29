@@ -192,37 +192,52 @@ class modSPTwitter
     */
     public function prepareArticles($array)
     {
-
+        var_dump($array);
         // the data will be displayed as
         // publicationDate_s : (authFullName_s)+
         // title_s[uri_s] download[fileMain_s]
         // journalTitle_s
 
+        // weird case for ppl that didnt fill up correctly, easier to display that part
+        if (!isset($array['uri_s']) or !isset($array['title_s']) or is_null($array['title_s'][0]) or
+            !isset($array['authFullName_s']) or empty($array['authFullName_s']) or !isset($array['publicationDate_s'])) {
+            return '<div class="hal-label">' . $array["label_s"] . '</div>';
+        }
+
+        // those are safe
         $uri = $array["uri_s"];
         $authors_array = $array["authFullName_s"];
         $publication_date = $array["publicationDate_s"];
-        $title = $array["title_s"];
-        $download = $array["fileMain_s"];
-        $journal_title = $array["journalTitle_s"];
-        // weird case for ppl that didnt fill up correctly, easier to display that part
-        if (empty($authors_array) or empty($title)) {
-            return '<div class="label">' . $array["label_s"] . '</div>';
+        $title = $array["title_s"][0]; // we only get the first title, ppl should not give many title, since we cant sort on language
+        if (!isset($array["fileMain_s"])) {
+            $download = null;
+        } else {
+            $download = $array["fileMain_s"];
         }
-        $flag_et_al=false;
+        if (!isset($array["journalTitle_s"])) {
+            $journal_title = null;
+        } else {
+            $journal_title = $array["journalTitle_s"];
+        }
+
+
+        $flag_et_al = false;
         $string = '<div class="hal-date">' . $publication_date . '</div><div class="hal-authors">';
         foreach ($authors_array as $i => $name) {
-            if ($i>3){
-                $flag_et_al=true;
+            if ($i > 3) {
+                $flag_et_al = true;
                 break;
             }
-            $string = $string . '<div class="hal-author">' . $name.'</div>';
+            $string = $string . '<div class="hal-author">' . $name . '</div>';
         }
-        $string = $string . ($flag_et_al?'<div class="hal-more-authors">et al.</div>':''). '</div>';
-        $string=$string.'<div class="hal-title"><a class="hal-link" target="_blank" href="'.$uri.'">'.$title.'</a></div>';
-        if (!is_null($download)){
-            $string=$string.'<div class="hal-download-button"><a href="'.$download.'" download></a></div>';
+        $string = $string . ($flag_et_al ? '<div class="hal-more-authors">et al.</div>' : '') . '</div>';
+        $string = $string . '<div class="hal-title"><a class="hal-link" target="_blank" href="' . $uri . '">' . $title . '</a></div>';
+        if (!is_null($download)) {
+            $string = $string . '<div class="hal-download-button"><a href="' . $download . '" download></a></div>';
         }
-        $string=$string.'<div class="hal-journal">'.$journal_title.'</div>';
+        if (!is_null($journal_title)) {
+            $string = $string . '<div class="hal-journal">' . $journal_title . '</div>';
+        }
         return $string;
     }
 

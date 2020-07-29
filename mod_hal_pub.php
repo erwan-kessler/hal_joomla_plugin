@@ -34,6 +34,9 @@ require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'helper.php');
 $helper = new modSPTwitter($params, $moduleID);
 $data = $helper->articles();
 if (!is_null($data)) {
+    if (isset($data['response'])){
+        die('API Fail');
+    }
     $data = $data["response"];
 
     if (JVERSION < 3) {
@@ -42,7 +45,7 @@ if (!is_null($data)) {
         JHtml::_('jquery.framework');
     }
 
-    if (is_array($data["docs"])) {
+    if (isset($data["docs"]) and is_array($data["docs"])) {
         if (file_exists($cssFile)) {
             $document->addStylesheet(JURI::base(true) . '/templates/' . $document->template . '/css/' . $moduleName . '.' . $style . '.css');
         } else {
@@ -71,7 +74,7 @@ if (!is_null($data)) {
         echo '</div>';
     }
 }else{
-    echo '<div> There has been a loading error, please contact your webmaster</div';
+    echo '<p> There has been a loading error, please contact your webmaster</p><p>'.var_dump($data).'</p>';
 }
 if ($params->get('animation', 'none') !== 'none') { ?>
     <?php
