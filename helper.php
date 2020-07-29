@@ -1,9 +1,10 @@
 <?php
 /*
-# mod_sp_tweet - Hal Module by erwankessler.com
+# mod_hal_pub - Hal Module by Erwan KESSLER
 # -----------------------------------------------
-# Author    Erwan KESSLER
-# license - GNU/GPL V2 or Later
+# Author    Erwan KESSLER erwankessler.com
+# license - MIT
+# Website: https://www.erwankessler.com
 */
 
 // no direct access

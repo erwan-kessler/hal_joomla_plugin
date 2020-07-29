@@ -181,7 +181,7 @@ class HALApiExchange
         $feed = curl_init();
         curl_setopt_array($feed, $options);
         $json = curl_exec($feed);
-        var_dump($feed);
+        var_dump($options);
         /*
 
         var_dump($json);

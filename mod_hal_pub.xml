@@ -27,7 +27,7 @@
   <config>
     <fields name="params">
       <fieldset name="basic">
-        <field name="url" type="text" default="https://api.archives-ouvertes.fr/search/" label="URL_ID" description="URL_ID_DESC" />
+        <field name="url" type="text" default="https://api.archives-ouvertes.fr/search" label="URL_ID" description="URL_ID_DESC" />
         <field name="division" type="text" default="LECOB" label="DIVISION_ID" description="DIVISION_ID_DESC" />
         <field name="query" type="text" default="*" label="QUERY_ID" description="QUERY_ID_DESC" />
         <field name="date" type="number" default="2019" label="DATE_ID" description="DATE_ID_DESC" />

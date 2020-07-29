@@ -1,11 +1,10 @@
 <?php
 /*
-# mod_sp_tweet - Twitter Module by JoomShaper.com
+# mod_hal_pub - Hal Module by Erwan KESSLER
 # -----------------------------------------------
-# Author    JoomShaper http://www.joomshaper.com
-# Copyright (C) 2010 - 2014 JoomShaper.com. All Rights Reserved.
-# license - GNU/GPL V2 or Later
-# Websites: http://www.joomshaper.com
+# Author    Erwan KESSLER erwankessler.com
+# license - MIT
+# Website: https://www.erwankessler.com
 */
 
 // no direct access

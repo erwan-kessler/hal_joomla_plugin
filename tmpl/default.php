@@ -1,15 +1,4 @@
-<?php
-	/*
-	# mod_sp_tweet - Twitter Module by JoomShaper.com
-	# -----------------------------------------------
-	# Author    JoomShaper http://www.joomshaper.com
-	# Copyright (C) 2010 - 2014 JoomShaper.com. All Rights Reserved.
-	# license - GNU/GPL V2 or Later
-	# Websites: http://www.joomshaper.com
-	*/
-    // no direct access
-    defined( '_JEXEC' ) or die( 'Restricted access' );
-?>
+<?php defined( '_JEXEC' ) or die( 'Restricted access' ); ?>
 
 <div class="sp-tweet">
     <?php foreach($data["docs"] as $i=>$value) { ?>
