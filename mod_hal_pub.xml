@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="2.5" client="site" method="upgrade">
+<extension type="module" version="3" client="site" method="upgrade">
   <name>HAL Pub</name>
   <author>Erwan Kessler</author>
   <creationDate>July 2020</creationDate>
@@ -15,13 +15,13 @@
   <languages>
     <language tag="en-GB">language/en-GB.mod_hal_pub.ini</language>
   </languages>
-  <files>
-    <filename module="mod_hal_pub">mod_hal_pub.php</filename>
+  <files folder="site">
+    <filename component="comp_hal_pub">forms/custom_list.php</filename>
+    <folder>forms</folder>
     <folder>tmpl</folder>
     <folder>assets</folder>
     <folder>library</folder>
     <folder>language</folder>
-    <folder>forms</folder>
     <filename>helper.php</filename>
     <filename>index.html</filename>
   </files>
@@ -35,7 +35,7 @@
           <option value="range">Range</option>
           <option value="selection">Selection</option>
         </field>
-        <field name="date" type="Year" label="Select Something Else" showon="date_range:selection">
+        <field name="date" addfieldpath="/modules/mod_hal_pub/forms" type="Year" label="Select Something Else" showon="date_range:selection" >
         </field>
         <field name="date" type="number" default="2019" label="DATE_ID" description="DATE_ID_DESC" showon="date_range:range"/>
         <field name="type" type="list" default="1" label="TYPE_ID" description="TYPE_ID_DESC" multiple="multiple">
