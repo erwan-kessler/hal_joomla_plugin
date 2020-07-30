@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+JForm::addFieldPath(JPATH_COMPONENT,'/forms');
 //Parameters
 $style = ($params->get('animation', 'none') == 'none') ? $params->get('layout_style', 'default') : 'default';
 $target = $params->get('target', '_blank');

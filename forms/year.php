@@ -1,17 +1,17 @@
 <?php
-die();
+// ffs who though it was a good idea that the file name was the same as the class name??
+// please make a proper registry, joomla sucks
 defined('_JEXEC') or die('Restricted access');
 
 JFormHelper::loadFieldClass('list');
-die();
+
 class JFormFieldYear extends JFormFieldList
 {
-
     protected $type = 'year';
 
     public function getOptions() {
         $years= array();
-        for ($i=1800;$i< date("Y");$i++){
+        for ($i= date("Y");$i>1800;$i--){
             array_push($years,array('value' => $i, 'text' => $i));
         }
         // Merge any additional options in the XML definition.
