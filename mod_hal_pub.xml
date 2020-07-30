@@ -21,6 +21,7 @@
     <folder>assets</folder>
     <folder>library</folder>
     <folder>language</folder>
+    <folder>forms</folder>
     <filename>helper.php</filename>
     <filename>index.html</filename>
   </files>
@@ -30,13 +31,54 @@
         <field name="url" type="text" default="https://api.archives-ouvertes.fr/search" label="URL_ID" description="URL_ID_DESC" />
         <field name="division" type="text" default="LECOB" label="DIVISION_ID" description="DIVISION_ID_DESC" />
         <field name="query" type="text" default="*" label="QUERY_ID" description="QUERY_ID_DESC" />
-        <field name="date" type="number" default="2019" label="DATE_ID" description="DATE_ID_DESC" />
+        <field name="date_range" type="radio" default="range" class="btn-group" label="DATE_RANGE_ID" description="DATE_RANGE_ID_DESC">
+          <option value="range">Range</option>
+          <option value="selection">Selection</option>
+        </field>
+        <field name="date" type="Year" label="Select Something Else" showon="date_range:selection">
+        </field>
+        <field name="date" type="number" default="2019" label="DATE_ID" description="DATE_ID_DESC" showon="date_range:range"/>
         <field name="type" type="list" default="1" label="TYPE_ID" description="TYPE_ID_DESC" multiple="multiple">
           <option value="ART">Articles</option>
-          <option value="COUV">Ouvrages</option>
+          <option value="COUV">Chapitres d'ouvrages</option>
           <option value="THESE">Theses</option>
-          <option value="REPORT,COMM">Rapports et conférences</option>
-          <!--TODO add more-->
+          <option value="REPORT">Rapports</option>
+          <option value="COMM">Conférences</option>
+          <option value="OTHER">Autres</option>
+          <option value="UNDEFINED">Pre-publication, Document de travail</option>
+          <option value="IMG">Images</option>
+          <option value="OUV">Ouvrages (y compris edition critique et traduction)</option>
+          <option value="MEM">Mémoire</option>
+          <option value="POSTER">Poster</option>
+          <option value="DOUV">Direction d'ouvrage, Proceedings, Dossier (</option>
+          <option value="HDR">Habilitation à Diriger les Recherches</option>
+          <option value="REPORT_LABO">Rapports Laboratoire</option>
+          <option value="PATENT">Brevet</option>
+          <option value="REPORT_MAST">Rapport Master</option>
+          <option value="VIDEO">Vidéos</option>
+          <option value="REPORT_LPRO">Rapport LPRO</option>
+          <option value="REPORT_LICE">Rapport LICE</option>
+          <option value="LECTURE">Cours</option>
+          <option value="CREPORT">CREPORT</option>
+          <option value="PRESCONF">Conférences de presse</option>
+          <option value="SOFTWARE">Logiciels</option>
+          <option value="REPORT_DOCT">Rapport Doctorant</option>
+          <option value="REPORT_ETAB">Rapport Etablissement</option>
+          <option value="REPORT_FORM">Rapport Formulaire</option>
+          <option value="MAP">Carte</option>
+          <option value="REPORT_GMAST">REPORT_GMAST</option>
+          <option value="SON">Bruit</option>
+          <option value="OTHERREPORT">Autre rapport</option>
+          <option value="NOTE">Note</option>
+          <option value="SYNTHESE">Synthese</option>
+          <option value="REPORT_FPROJ">REPORT_FPROJ</option>
+          <option value="REPORT_GLICE">REPORT_GLICE</option>
+          <option value="REPACT">REPACT</option>
+          <option value="MEMLIC">MEMLIC</option>
+          <option value="REPORT_RFOINT">REPORT_RFOINT</option>
+          <option value="REPORT_COOR">REPORT_COOR</option>
+          <option value="REPORT_RETABINT">REPORT_RETABINT</option>
+          <option value="ETABTHESE">Thése d'établissement</option>
         </field>
         <field name="number_per_page" type="number" default="10" label="PG_NBR_ID" description="PG_NBR_ID_DESC" />
         <field name="layout_style" type="list" default="1" label="STYLE" description="STYLE_DESC" >

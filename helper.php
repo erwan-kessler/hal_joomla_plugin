@@ -104,10 +104,9 @@ class modHalPub
             JError::raiseNotice(100, 'The number per page was not defined please use 10.');
             return null;
         }
-        var_dump( $this->params->get('type'));
         $getfield = '?q=' . $this->params->get('query') . // the main query this is for example to restrict to one person
             '&wt=json' . // the return type, we handle json only here
-            '&fq=docType_s:"' . $this->params->get('type')[0] . '"' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
+            '&fq=docType_s:(' . implode('%20OR%20',$this->params->get('type')) . ')' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
             '&fq=submittedDateY_i:[' . $this->params->get('date') . '%20TO%20' . $this->params->get('date') . ']' . // the limit on date so we dont get old results
             '&sort=publicationDate_tdate%20desc' . // sort the publication by date so newer ones pops up
             '&rows=' . $this->params->get('number_per_page') . // restrict to only so much by page
@@ -224,10 +223,10 @@ class modHalPub
         // first line: date and authors
         $string = $string . '<div class="hal-first-line">';
         //date
-        $string = $string . '<div class="hal-date">' . CALENDAR . $publication_date . '</div>';
-        // authors
+        $string = $string . '<div class="hal-date"><div class="hal-icon">' . CALENDAR . '</div>' . $publication_date . '</div>';
+        // authors.
         $flag_et_al = false;
-        $string = $string . AUTHORS;
+        $string = $string . '<div class="hal-icon">' . AUTHORS . '</div><div class=hal-authors>';
         foreach ($authors_array as $i => $name) {
             if ($i > 3) {
                 $flag_et_al = true;

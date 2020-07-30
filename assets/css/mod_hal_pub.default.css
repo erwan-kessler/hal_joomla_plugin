@@ -4,6 +4,9 @@
 
 .hal-date {
     white-space: nowrap;
+    display: flex;
+    margin-right: 0.2em;
+    align-items: center;
 }
 
 .hal-icon{
@@ -99,6 +102,8 @@
 .hal-first-line {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .hal-second-line {
