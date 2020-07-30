@@ -6,13 +6,12 @@
 # license - MIT
 # Website: https://www.erwankessler.com
 */
-
-// no direct access
 defined('_JEXEC') or die('Restricted access');
 
 include_once('library/HALAPIExchange.php');
+include_once('tmpl/svg.php');
 
-class modSPTwitter
+class modHalPub
 {
     private $moduleID;
     private $params;
@@ -81,36 +80,35 @@ class modSPTwitter
             'url' => $this->params->get('url'),
             'division' => $this->params->get('division')
         );
-
         if (empty($this->params->get('url'))) {
             JError::raiseNotice(100, 'URL not defined, use https://api.archives-ouvertes.fr/search/.');
-            return NULL;
+            return null;
         }
         if (empty($this->params->get('division'))) {
             JError::raiseNotice(100, 'Division not defined, use LECOB or NULL for all.');
-            return NULL;
+            return null;
         }
         if (empty($this->params->get('query'))) {
             JError::raiseNotice(100, 'Query not defined, use *.');
-            return NULL;
+            return null;
         }
-        if (empty($this->params->get('date')) && is_int($this->params->get('date'))) {
+        if (empty($this->params->get('date')) or !ctype_digit($this->params->get('date'))) {
             JError::raiseNotice(100, 'Date not correctly defined, please input only the year (like 2020).');
-            return NULL;
+            return null;
         }
         if (empty($this->params->get('type'))) {
             JError::raiseNotice(100, 'The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).');
-            return NULL;
+            return null;
         }
-        if (empty($this->params->get('number_per_page')) && is_int($this->params->get('number_per_page'))) {
+        if (empty($this->params->get('number_per_page')) or !ctype_digit($this->params->get('number_per_page'))) {
             JError::raiseNotice(100, 'The number per page was not defined please use 10.');
-            return NULL;
+            return null;
         }
-
+        var_dump( $this->params->get('type'));
         $getfield = '?q=' . $this->params->get('query') . // the main query this is for example to restrict to one person
             '&wt=json' . // the return type, we handle json only here
-            'fq=docType_s:"' . $this->params->get('type') . '"' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
-            '&fq=submittedDateY_i:[' . $this->params->get('date') . '%20TO%20' . ((int)$this->params->get('date') + 1) . ']' . // the limit on date so we dont get old results
+            '&fq=docType_s:"' . $this->params->get('type')[0] . '"' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
+            '&fq=submittedDateY_i:[' . $this->params->get('date') . '%20TO%20' . $this->params->get('date') . ']' . // the limit on date so we dont get old results
             '&sort=publicationDate_tdate%20desc' . // sort the publication by date so newer ones pops up
             '&rows=' . $this->params->get('number_per_page') . // restrict to only so much by page
             '&fl=title_s,publicationDate_s,label_s,fileMain_s,authFullName_s,uri_s,journalTitle_s'; // the field we need to display data, knowing that label_s is actually the core part
@@ -226,10 +224,10 @@ class modSPTwitter
         // first line: date and authors
         $string = $string . '<div class="hal-first-line">';
         //date
-        $string = $string . '<div class="hal-date"><img class="hal-icon" src="images/icones/date_icone.png" alt="icone date">' . $publication_date . '</div>';
+        $string = $string . '<div class="hal-date">' . CALENDAR . $publication_date . '</div>';
         // authors
         $flag_et_al = false;
-        $string = $string . '<img class="hal-icon" src="images/icones/stylo_icone.png" alt="icone stylo"><div class="hal-authors">';
+        $string = $string . AUTHORS;
         foreach ($authors_array as $i => $name) {
             if ($i > 3) {
                 $flag_et_al = true;

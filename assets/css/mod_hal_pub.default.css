@@ -3,8 +3,9 @@
 }
 
 .hal-date {
-    margin-right: 1em;
+    white-space: nowrap;
 }
+
 .hal-icon{
     width: 25px;
     height: 25px;
@@ -14,14 +15,16 @@
 .hal-authors {
     display: flex;
     font-weight: 500;
+    flex-wrap: wrap;
+    flex: 1 1 50px;
 }
 
 .hal-author:empty {
     display: none;
 }
 
-.hal-author:not(:first-child):before {
-    content: ", ";
+.hal-author:not(:last-child):after {
+    content: ",\00a0";
 }
 
 .hal-more-authors:empty {
@@ -78,6 +81,7 @@
 
 }
 
+
 .hal-item {
     display: flex;
     flex-direction: row;
@@ -85,6 +89,11 @@
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 2px;
+}
+@media screen and (max-width: 600px) {
+    .hal-item{
+        flex-direction: column;
+    }
 }
 
 .hal-first-line {
@@ -107,6 +116,9 @@
     flex-direction: column;
     flex-grow: 0;
     justify-content: center;
+    align-self: center;
+    align-items: center;
+    align-content: center;
 }
 
 .hal-first-column {
