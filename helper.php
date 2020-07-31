@@ -85,7 +85,7 @@ class modHalPub
             return null;
         }
         if (empty($this->params->get('division'))) {
-            JError::raiseNotice(100, 'Division not defined, use LECOB or NULL for all.');
+            JError::raiseNotice(100, 'Division not defined, use LECOB or null for all.');
             return null;
         }
         if (empty($this->params->get('query'))) {
@@ -127,7 +127,7 @@ class modHalPub
             $date = $date . '(' . implode('%20OR%20', $this->params->get('date_selection')) . ')';
         }
 
-        $getfield = '?q=' . $this->params->get('query') . // the main query this is for example to restrict to one person
+        $getfield = '?q=' . str_replace(' ', '+', $this->params->get('query')) . // the main query this is for example to restrict to one person
             '&wt=json' . // the return type, we handle json only here
             '&fq=docType_s:(' . implode('%20OR%20', $this->params->get('type')) . ')' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
             '&fq=publicationDateY_i:' . $date . // the limit on date so we dont get old results

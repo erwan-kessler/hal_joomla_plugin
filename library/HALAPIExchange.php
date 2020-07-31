@@ -139,9 +139,7 @@ class HALApiExchange
                 $oauth[$split[0]] = $split[1];
             }
         }
-        if (is_null($this->division)){
-            $this->url = $this->url .'/';
-        }else{
+        if (strtolower($this->division)!=="null"){
             $this->url = $this->url .'/'. $this->division;
         }
 
