@@ -36,9 +36,9 @@
                     <option value="range">Range</option>
                     <option value="selection">Selection</option>
                 </field>
-                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_selection" type="year" description="DATE_SELECTION_DESC" label="DATE_SELECTION" showon="date_type:selection" multiple="multiple"/>
-                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_from" type="year" default="2019" label="DATE_RANGE_FROM" description="DATE_RANGE_FROM_DESC" showon="date_type:range"/>
-                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_to" type="year" default="2019" label="DATE_RANGE_TO" description="DATE_RANGE_TO_DESC" showon="date_type:range"/>
+                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_selection" type="years" description="DATE_SELECTION_DESC" label="DATE_SELECTION" showon="date_type:selection" multiple="multiple"/>
+                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_from" type="year" label="DATE_RANGE_FROM" description="DATE_RANGE_FROM_DESC" showon="date_type:range"/>
+                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_to" type="year" label="DATE_RANGE_TO" description="DATE_RANGE_TO_DESC" showon="date_type:range"/>
                 <field name="type" type="list" default="1" label="TYPE_ID" description="TYPE_ID_DESC" multiple="multiple">
                     <option value="ART">Articles</option>
                     <option value="COUV">Chapitres d'ouvrages</option>
@@ -81,15 +81,11 @@
                     <option value="REPORT_RETABINT">REPORT_RETABINT</option>
                     <option value="ETABTHESE">Thése d'établissement</option>
                 </field>
+                <field name="limit_query" type="number" default="10" label="LIMIT_ID" description="LIMIT_ID_DESC"/>
                 <field name="number_per_page" type="number" default="10" label="PG_NBR_ID" description="PG_NBR_ID_DESC"/>
-                <field name="layout_style" type="list" default="1" label="STYLE" description="STYLE_DESC">
-                    <option value="default">DEFAULT</option>
-                    <option value="list">LIST</option>
-                    <option value="bubble">BUBBLE</option>
-                </field>
                 <field name="target" type="radio" default="_blank" class="btn-group" label="WINDOW" description="WINDOW_DESC">
-                    <option value="_self">NEW_WINDOW</option>
-                    <option value="_blank">OWN_WINDOW</option>
+                    <option value="_self">OWN_WINDOW</option>
+                    <option value="_blank">NEW_WINDOW</option>
                 </field>
 
                 <field type="spacer" name="tokens" hr="true"/>
@@ -99,14 +95,6 @@
                 <field name="access_token" type="text" default="" label="ACCESS_TOKEN" description="ACCESS_TOKEN_DESC"/>
                 <field name="access_token_secret" type="text" default="" label="ACCESS_TOKEN_SECRET" description="ACCESS_TOKEN_SECRET_DESC"/>
 
-
-                <field type="spacer" name="myspacer2" hr="true"/>
-                <field name="animation" type="radio" default="none" class="btn-group" label="ANIMATION" description="ANIMATION_DESC">
-                    <option value="none">JNO</option>
-                    <option value="1">JYES</option>
-                </field>
-                <field name="morph_duration" type="text" default="300" label="DURATION" description="DURATION_DESC"/>
-                <field name="animation_periodical_time" type="text" default="8000" label="INTERVAL" description="INTERVAL_DESC"/>
             </fieldset>
 
             <fieldset name="advanced">
@@ -116,7 +104,7 @@
                     <option value="1">JGLOBAL_USE_GLOBAL</option>
                     <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
                 </field>
-                <field name="cache_time" type="text" default="0" label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                <field name="cache_time" type="text" default="172800" label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
                        description="COM_MODULES_FIELD_CACHE_TIME_DESC"/>
                 <field name="cachemode" type="hidden" default="static">
                     <option value="static">static</option>

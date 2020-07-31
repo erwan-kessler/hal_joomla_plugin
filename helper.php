@@ -92,10 +92,6 @@ class modHalPub
             JError::raiseNotice(100, 'Query not defined, use *.');
             return null;
         }
-        if (empty($this->params->get('date')) or !ctype_digit($this->params->get('date'))) {
-            JError::raiseNotice(100, 'Date not correctly defined, please input only the year (like 2020).');
-            return null;
-        }
         if (empty($this->params->get('type'))) {
             JError::raiseNotice(100, 'The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).');
             return null;
@@ -104,12 +100,43 @@ class modHalPub
             JError::raiseNotice(100, 'The number per page was not defined please use 10.');
             return null;
         }
+        if (empty($this->params->get('limit_query')) or !ctype_digit($this->params->get('limit_query'))) {
+            JError::raiseNotice(100, 'The number of result was not defined please use 10.');
+            return null;
+        }
+        if (empty($this->params->get('date_type'))) {
+            JError::raiseNotice(100, 'The date type was not set.');
+            return null;
+        }
+        $date = "";
+        if ($this->params->get('date_type') === "range") {
+            if (empty($this->params->get('date_range_from')) or !ctype_digit($this->params->get('date_range_from'))) {
+                JError::raiseNotice(100, 'The date from was not defined.');
+                return null;
+            }
+            if (empty($this->params->get('date_range_to')) or !ctype_digit($this->params->get('date_range_to'))) {
+                JError::raiseNotice(100, 'The date from was not defined.');
+                return null;
+            }
+            if ((int)$this->params->get('date_range_to') < (int)$this->params->get('date_range_from')) {
+                JError::raiseNotice(100, 'The date order is incorrect.');
+                return null;
+            }
+            $date = $date . '[' . $this->params->get('date_range_from') . '%20TO%20' . $this->params->get('date_range_to') . ']';
+        } else {
+            if (empty($this->params->get('date_selection'))) {
+                JError::raiseNotice(100, 'The date selection is empty.');
+                return null;
+            }
+            $date = $date . '(' . implode('%20OR%20', $this->params->get('date_selection')) . ')';
+        }
+
         $getfield = '?q=' . $this->params->get('query') . // the main query this is for example to restrict to one person
             '&wt=json' . // the return type, we handle json only here
-            '&fq=docType_s:(' . implode('%20OR%20',$this->params->get('type')) . ')' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
-            '&fq=submittedDateY_i:[' . $this->params->get('date') . '%20TO%20' . $this->params->get('date') . ']' . // the limit on date so we dont get old results
+            '&fq=docType_s:(' . implode('%20OR%20', $this->params->get('type')) . ')' . // the type of publication, that's to decided whether to display an article (ART), ouvrage (COUV)... See docType_s fmi.
+            '&fq=publicationDateY_i:' . $date . // the limit on date so we dont get old results
             '&sort=publicationDate_tdate%20desc' . // sort the publication by date so newer ones pops up
-            '&rows=' . $this->params->get('number_per_page') . // restrict to only so much by page
+            '&rows=' . $this->params->get('limit_query') . // restrict to only so much by page
             '&fl=title_s,publicationDate_s,label_s,fileMain_s,authFullName_s,uri_s,journalTitle_s'; // the field we need to display data, knowing that label_s is actually the core part
         // the data will be displayed as
         // publicationDate_tdate : (authFullName_s)+
@@ -189,6 +216,7 @@ class modHalPub
     */
     public function prepareArticles($array)
     {
+        $target = $this->params->get('target', '_blank');
         // the data will be displayed as
         // publicationDate_s : (authFullName_s)+
         // title_s[uri_s] download[fileMain_s]
@@ -239,7 +267,7 @@ class modHalPub
 
         //second line: title with link
         $string = $string . '<div class="hal-second-line">';
-        $string = $string . '<div class="hal-title"><a class="hal-link" target="_blank" href="' . $uri . '">' . $title . '</a></div>';
+        $string = $string . '<div class="hal-title"><a class="hal-link" target="' . $target . '" href="' . $uri . '">' . $title . '</a></div>';
         $string = $string . '</div>';
 
         // optional third line

@@ -3,9 +3,9 @@ defined('_JEXEC') or die('Restricted access');
 
 JFormHelper::loadFieldClass('list');
 
-class JFormFieldYear extends JFormFieldList
+class JFormFieldYears extends JFormFieldList
 {
-    protected $type = 'year';
+    protected $type = 'years';
 
     public function getOptions() {
         $years= array();
@@ -15,7 +15,7 @@ class JFormFieldYear extends JFormFieldList
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $years);
         // pre-select last year
-        $this->value = date("Y");
+        $this->value = array_merge($this->value,array(date("Y")));
         //print_r($this->value);
         return $options;
     }

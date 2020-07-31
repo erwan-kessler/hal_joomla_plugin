@@ -11,8 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 JForm::addFieldPath(JPATH_COMPONENT,'/forms');
 //Parameters
-$style = ($params->get('animation', 'none') == 'none') ? $params->get('layout_style', 'default') : 'default';
-$target = $params->get('target', '_blank');
+$style = 'default';
 $moduleName = basename(dirname(__FILE__));
 $moduleID = $module->id;
 $document = JFactory::getDocument();
@@ -41,25 +40,7 @@ if (!is_null($data)) {
         } else {
             $document->addStylesheet(JURI::base(true) . '/modules/' . $moduleName . '/assets/css/' . $moduleName . '.' . $style . '.css');
         }
-
-        if ($params->get('animation') !== 'none') {
-
-            if (JVERSION < 3) {
-                $document->addScript(JURI::base(true) . '/modules/' . $moduleName . '/assets/js/mod_sp_tweet.js');
-            } else {
-                $document->addScript(JURI::base(true) . '/modules/' . $moduleName . '/assets/js/mod_sp_tweet_jquery.js');
-            }
-
-
-            $css = '.sp-tweet div.sp-tweet-item {'
-                . 'position: absolute;'
-                . 'visibility: hidden;'
-                . '}';
-            if (JVERSION < 3) {
-                $document->addStyleDeclaration($css);
-            }
-        }
-        echo '<div id="sp-tweet-id' . $moduleID . '">';
+        echo '<div id="hal-pub-id' . $moduleID . '">';
         require(JModuleHelper::getLayoutPath($moduleName, $style));
         echo '</div>';
     }
@@ -67,32 +48,3 @@ if (!is_null($data)) {
     echo '<p> There has been a loading error, please contact your webmaster, the recovered data content is as follows:</p>';
     var_dump($data);
 }
-if ($params->get('animation', 'none') !== 'none') { ?>
-    <?php
-    if (JVERSION < 3) {
-        ?>
-        <script type="text/javascript">
-            window.addEvent('domready', function () {
-                new sptweetSlide('#sp-tweet-id<?php echo $moduleID; ?>', {
-                    'morphDuration':<?php  echo $params->get('morph_duration', '500');?>,
-                    'animationPeriodicalTime':<?php  echo $params->get('animation_periodical_time', '8000');?>
-                });
-            });
-        </script>
-        <?php
-    } else {
-        ?>
-        <script type="text/javascript">
-            jQuery(function ($) {
-                $(document).ready(function () {
-                    $('#sp-tweet-id<?php echo $moduleID; ?>').sptweetSlide({
-                        'morphDuration':<?php  echo $params->get('morph_duration', '500');?>,
-                        'animationPeriodicalTime':<?php  echo $params->get('animation_periodical_time', '8000');?>
-                    });
-                });
-            });
-        </script>
-        <?php
-    }
-    ?>
-<?php }
