@@ -83,7 +83,6 @@
                     <option value="ETABTHESE">Thése d'établissement</option>
                 </field>
                 <field name="limit_query" type="number" default="10" label="LIMIT_ID" description="LIMIT_ID_DESC"/>
-                <field name="number_per_page" type="number" default="10" label="PG_NBR_ID" description="PG_NBR_ID_DESC"/>
                 <field name="target" type="radio" default="_blank" class="btn-group" label="WINDOW" description="WINDOW_DESC">
                     <option value="_self">OWN_WINDOW</option>
                     <option value="_blank">NEW_WINDOW</option>

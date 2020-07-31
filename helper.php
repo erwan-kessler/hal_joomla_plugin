@@ -96,10 +96,6 @@ class modHalPub
             JError::raiseNotice(100, 'The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).');
             return null;
         }
-        if (empty($this->params->get('number_per_page')) or !ctype_digit($this->params->get('number_per_page'))) {
-            JError::raiseNotice(100, 'The number per page was not defined please use 10.');
-            return null;
-        }
         if (empty($this->params->get('limit_query')) or !ctype_digit($this->params->get('limit_query'))) {
             JError::raiseNotice(100, 'The number of result was not defined please use 10.');
             return null;
