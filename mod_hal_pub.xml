@@ -37,7 +37,7 @@
                     <option value="range">Range</option>
                     <option value="selection">Selection</option>
                 </field>
-                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_selection" type="years" description="DATE_SELECTION_DESC" label="DATE_SELECTION" showon="date_type:selection" multiple="multiple"/>
+                <field addfieldpath="/modules/mod_hal_pub/forms" name="date_selection" type="years" label="DATE_SELECTION" description="DATE_SELECTION_DESC" showon="date_type:selection" multiple="multiple"/>
                 <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_from" type="year" label="DATE_RANGE_FROM" description="DATE_RANGE_FROM_DESC" showon="date_type:range"/>
                 <field addfieldpath="/modules/mod_hal_pub/forms" name="date_range_to" type="year" label="DATE_RANGE_TO" description="DATE_RANGE_TO_DESC" showon="date_type:range"/>
                 <field name="type" type="list" default="1" label="TYPE_ID" description="TYPE_ID_DESC" multiple="multiple">
