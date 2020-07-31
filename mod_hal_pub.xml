@@ -15,6 +15,7 @@
 
     <languages>
         <language tag="en-GB">language/en-GB.mod_hal_pub.ini</language>
+		<language tag="fr-FR">language/en-GB.mod_hal_pub.ini</language>
     </languages>
     <files folder="site">
         <filename module="mod_hal_pub">mod_hal_pub.php</filename>

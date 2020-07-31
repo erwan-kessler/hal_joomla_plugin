@@ -15,8 +15,11 @@ class JFormFieldYears extends JFormFieldList
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $years);
         // pre-select last year
-        $this->value = array_merge($this->value,array(date("Y")));
-        //print_r($this->value);
+        if (!is_array($this->value)){
+            $this->value=array(date("Y"));
+        }else{
+            $this->value = array_merge($this->value,array(date("Y")));
+        }
         return $options;
     }
 }

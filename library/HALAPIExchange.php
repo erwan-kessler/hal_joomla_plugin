@@ -177,7 +177,6 @@ class HALApiExchange
                 $options[CURLOPT_URL] .= $getfield;
             }
         }
-       // var_dump($options);
         $feed = curl_init();
         curl_setopt_array($feed, $options);
         $json = curl_exec($feed);
