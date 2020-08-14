@@ -134,6 +134,9 @@ class modHalPub
                 JError::raiseNotice(100, 'The date selection is empty.');
                 return null;
             }
+            if ($this->params->get('date_selection')==="latest"){
+                $this->params->set('date_selection',date("Y"));
+            }
             $date = $date . '(' . implode('%20OR%20', $this->params->get('date_selection')) . ')';
         }
 
