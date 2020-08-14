@@ -12,13 +12,12 @@ class JFormFieldYears extends JFormFieldList
         for ($i= date("Y");$i>1800;$i--){
             array_push($years,array('value' => $i, 'text' => $i));
         }
+        array_push($years,array('value' => 'latest', 'text' => 'latest'));
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $years);
         // pre-select last year
         if (!is_array($this->value)){
-            $this->value=array(date("Y"));
-        }else{
-            $this->value = array_merge($this->value,array(date("Y")));
+            $this->value=array('latest');
         }
         return $options;
     }

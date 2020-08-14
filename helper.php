@@ -106,11 +106,21 @@ class modHalPub
         }
         $date = "";
         if ($this->params->get('date_type') === "range") {
-            if (empty($this->params->get('date_range_from')) or !ctype_digit($this->params->get('date_range_from'))) {
+            if (empty($this->params->get('date_range_from')) or empty($this->params->get('date_range_to'))){
+                JError::raiseNotice(100, 'The date range was not defined correctly (empty values).');
+                return null;
+            }
+            if ($this->params->get('date_range_from')==="latest"){
+                $this->params->set('date_range_from',date("Y"));
+            }
+            if ($this->params->get('date_range_to')==="latest"){
+                $this->params->set('date_range_to',date("Y"));
+            }
+            if (!ctype_digit($this->params->get('date_range_from'))) {
                 JError::raiseNotice(100, 'The date from was not defined.');
                 return null;
             }
-            if (empty($this->params->get('date_range_to')) or !ctype_digit($this->params->get('date_range_to'))) {
+            if (!ctype_digit($this->params->get('date_range_to'))) {
                 JError::raiseNotice(100, 'The date from was not defined.');
                 return null;
             }
