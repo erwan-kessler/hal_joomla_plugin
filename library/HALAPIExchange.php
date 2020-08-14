@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Hal-API-PHP : Simple PHP wrapper for the v1.1 API
  *
@@ -8,7 +7,7 @@
  * @category Awesomeness
  * @package  HAL-API-PHP
  * @author   Erwan Kessler <me@erwankessler.com>
- * @license  http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license  MIT
  * How to use
  * $settings = array(
  *     /// might need a secret key later on

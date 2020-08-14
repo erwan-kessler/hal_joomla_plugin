@@ -1,4 +1,11 @@
 <?php
+/*
+# mod_hal_pub - Hal Module by Erwan KESSLER
+# -----------------------------------------------
+# Author    Erwan KESSLER erwankessler.com
+# license - MIT
+# Website: https://www.erwankessler.com
+*/
 defined('_JEXEC') or die('Restricted access');
 
 JFormHelper::loadFieldClass('list');
