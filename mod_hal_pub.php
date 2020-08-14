@@ -45,6 +45,5 @@ if (!is_null($data)) {
         echo '</div>';
     }
 }else{
-    echo '<p> There has been a loading error, please contact your webmaster, the recovered data content is as follows:</p>';
-    var_dump($data);
+    echo '<p> There has been a loading error, please contact your webmaster.</p>';
 }

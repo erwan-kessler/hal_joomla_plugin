@@ -81,33 +81,33 @@ class modHalPub
             'division' => $this->params->get('division')
         );
         if (empty($this->params->get('url'))) {
-            JError::raiseNotice(100, 'URL not defined, use https://api.archives-ouvertes.fr/search/.');
+            JApplicationCms::getInstance('site')->enqueueMessage('URL not defined, use https://api.archives-ouvertes.fr/search/.','error');
             return null;
         }
         if (empty($this->params->get('division'))) {
-            JError::raiseNotice(100, 'Division not defined, use LECOB or null for all.');
+            JApplicationCms::getInstance('site')->enqueueMessage('Division not defined, use LECOB or null for all.','error');
             return null;
         }
         if (empty($this->params->get('query'))) {
-            JError::raiseNotice(100, 'Query not defined, use *.');
+            JApplicationCms::getInstance('site')->enqueueMessage('Query not defined, use *.','error');
             return null;
         }
         if (empty($this->params->get('type'))) {
-            JError::raiseNotice(100, 'The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).');
+            JApplicationCms::getInstance('site')->enqueueMessage('The type of publication to display was not defined, use ART for articles (https://api.archives-ouvertes.fr/search/?q=*%3A*&rows=0&wt=xml&indent=true&facet=true&facet.field=docType_s).','error');
             return null;
         }
         if (empty($this->params->get('limit_query')) or !ctype_digit($this->params->get('limit_query'))) {
-            JError::raiseNotice(100, 'The number of result was not defined please use 10.');
+            JApplicationCms::getInstance('site')->enqueueMessage('The number of result was not defined please use 10.','error');
             return null;
         }
         if (empty($this->params->get('date_type'))) {
-            JError::raiseNotice(100, 'The date type was not set.');
+            JApplicationCms::getInstance('site')->enqueueMessage('The date type was not set.','error');
             return null;
         }
         $date = "";
         if ($this->params->get('date_type') === "range") {
             if (empty($this->params->get('date_range_from')) or empty($this->params->get('date_range_to'))){
-                JError::raiseNotice(100, 'The date range was not defined correctly (empty values).');
+                JApplicationCms::getInstance('site')->enqueueMessage('The date range was not defined correctly (empty values).','error');
                 return null;
             }
             if ($this->params->get('date_range_from')==="latest"){
@@ -117,21 +117,21 @@ class modHalPub
                 $this->params->set('date_range_to',date("Y"));
             }
             if (!ctype_digit($this->params->get('date_range_from'))) {
-                JError::raiseNotice(100, 'The date from was not defined.');
+                JApplicationCms::getInstance('site')->enqueueMessage('The date from was not defined.','error');
                 return null;
             }
             if (!ctype_digit($this->params->get('date_range_to'))) {
-                JError::raiseNotice(100, 'The date from was not defined.');
+                JApplicationCms::getInstance('site')->enqueueMessage('The date from was not defined.','error');
                 return null;
             }
             if ((int)$this->params->get('date_range_to') < (int)$this->params->get('date_range_from')) {
-                JError::raiseNotice(100, 'The date order is incorrect.');
+                JApplicationCms::getInstance('site')->enqueueMessage('The date order is incorrect.','error');
                 return null;
             }
             $date = $date . '[' . $this->params->get('date_range_from') . '%20TO%20' . $this->params->get('date_range_to') . ']';
         } else {
             if (empty($this->params->get('date_selection'))) {
-                JError::raiseNotice(100, 'The date selection is empty.');
+                JApplicationCms::getInstance('site')->enqueueMessage('The date selection is empty.','error');
                 return null;
             }
             if ($this->params->get('date_selection')==="latest"){
@@ -165,22 +165,22 @@ class modHalPub
             case JSON_ERROR_NONE:
                 break;
             case JSON_ERROR_DEPTH:
-                JError::raiseNotice(100, 'JSON Error: Profondeur maximale atteinte');;
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Profondeur maximale atteinte','error');;
                 break;
             case JSON_ERROR_STATE_MISMATCH:
-                JError::raiseNotice(100, 'JSON Error: Inadéquation des modes ou underflow');
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Inadéquation des modes ou underflow','error');
                 break;
             case JSON_ERROR_CTRL_CHAR:
-                JError::raiseNotice(100, 'JSON Error: Erreur lors du contrôle des caractères');
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Erreur lors du contrôle des caractères','error');
                 break;
             case JSON_ERROR_SYNTAX:
-                JError::raiseNotice(100, 'JSON Error: Erreur de syntaxe, JSON malformé');
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Erreur de syntaxe, JSON malformé','error');
                 break;
             case JSON_ERROR_UTF8:
-                JError::raiseNotice(100, 'JSON Error: Caractères UTF-8 malformés, probablement une erreur d\'encodage');
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Caractères UTF-8 malformés, probablement une erreur d\'encodage','error');
                 break;
             default:
-                JError::raiseNotice(100, 'JSON Error: Erreur inconnue');
+                JApplicationCms::getInstance('site')->enqueueMessage('JSON Error: Erreur inconnue','error');
                 break;
         }
         return $data;
