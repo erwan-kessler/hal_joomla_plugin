@@ -9,10 +9,11 @@ class JFormFieldYear extends JFormFieldList
 
     public function getOptions() {
         $years= array();
+        array_push($years,array('value' => 'latest', 'text' => 'latest'));
         for ($i= date("Y");$i>1800;$i--){
             array_push($years,array('value' => $i, 'text' => $i));
         }
-        array_push($years,array('value' => 'latest', 'text' => 'latest'));
+
         // Merge any additional options in the XML definition.
         $options = array_merge(parent::getOptions(), $years);
         // pre-select last year
