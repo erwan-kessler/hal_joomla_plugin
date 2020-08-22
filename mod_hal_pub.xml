@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3" client="site" method="upgrade">
-    <name>HAL Pub</name>
+    <name>HAL Publications</name>
     <author>Erwan Kessler</author>
     <creationDate>July 2020</creationDate>
     <license>MIT</license>

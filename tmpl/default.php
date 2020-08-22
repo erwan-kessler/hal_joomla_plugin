@@ -25,8 +25,12 @@ foreach ($data["docs"] as $doc) {
     }
     array_push($data_per_year[$year], $doc);
 }
-reset($data_per_year);
-$last_year = key($data_per_year);
+if (!empty($data_per_year)){
+    reset($data_per_year);
+    $last_year = key($data_per_year);
+}else{
+    exit("Pas de publications");
+}
 ?>
 
 
@@ -60,15 +64,6 @@ $last_year = key($data_per_year);
     #hal-$year:checked ~ #hal-data-$year{
         display: initial;
     }
-    
-
-
-
-
-
-
     ";
-
-
      } ?>
 </style>
